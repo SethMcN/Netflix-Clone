@@ -1,0 +1,45 @@
+.profile-container{
+    background-color: #141414 ;
+    max-height: 100vh;
+    overflow-y: scroll;
+}
+
+.profile-container::-webkit-scrollbar {
+    width: 0px;
+}
+
+.profile-container h1{
+    color: #FFFFFF ;
+    font-size: 2.5rem;
+    margin: 1rem 0;
+    padding: 0 1rem;
+}
+
+.form-container{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20%;
+}
+
+.sign-up-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sign-up-form ul{
+    list-style: none;
+}
+
+.sign-up-form p{
+    color: rgb(194, 194, 194);
+}
+
+.form-container input{
+    width: 80%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: none;
+    border-radius: 20px;
+}

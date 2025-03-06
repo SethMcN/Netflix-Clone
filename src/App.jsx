@@ -1,0 +1,57 @@
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
+import NavigationBar from "./pages/NavigationBar";
+import HomeMediaPage from "./HomeMediaPage/HomeMediaPage";
+import Profiles from "./pages/ProfileScreen";
+import { fetchFromTMDB, fetchMoviesByGenre, fetchGenres } from "../FetchData";
+
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [genreMoviesList, setGenreMoviesList] = useState([]);
+
+  useEffect(() => {
+    const fetchPopMovies = async () => {
+      const data = await fetchFromTMDB();
+      setMovies(data);
+    };
+
+    const fetchGenreSpec = async (genreName) => {
+      const genres = await fetchGenres();
+
+      const genre = genres.find((g) => {
+        return g.name.toLowerCase() === genreName.toLowerCase();
+      });
+
+      if (genre) {
+        const data = await fetchMoviesByGenre(genre.id);
+        setGenreMoviesList((prevList) => [
+          ...prevList,
+          { movies: data, genre: genre.name },
+        ]);
+      } else {
+        console.error(`Genre ${genreName} not found`);
+      }
+    };
+
+    fetchPopMovies();
+    fetchGenreSpec("horror");
+    fetchGenreSpec("Science Fiction");
+    fetchGenreSpec("Comedy");
+  }, []);
+
+  window.addEventListener("offline", function () {
+    alert("Oops! You are offline now!");
+  });
+
+  return (
+    <div className="main-window">
+      <NavigationBar />
+      <Routes>
+        <Route path="/" element={<HomeMediaPage movies={movies} genreMoviesList={genreMoviesList} />} />
+        <Route path="/profiles" element={<Profiles />} />
+      </Routes>
+    </div>
+  );
+}
+
+export default App;

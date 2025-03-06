@@ -1,0 +1,14 @@
+.movie-card img {
+    width: 70%;
+    border-radius: 2%;
+}
+
+.movie-card {
+    display: flex;
+    justify-content: center;
+    z-index: 0;
+}
+
+.movie-info {
+    display: none;
+}
