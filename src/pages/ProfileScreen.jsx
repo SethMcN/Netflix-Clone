@@ -5,24 +5,33 @@ import { createClient } from '@supabase/supabase-js';
 const API_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const URL = import.meta.env.VITE_SUPABASE_URL;
 
-
-const HashPassword = async (password) => {
-  const hash = await bcrypt.hash(password);
-  setPassword(hash)
-}
-
 export default function Profiles() {
+  
+  const HashPassword = async (message) => {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  
+    // Convert hash to a hexadecimal string
+    const pass =  Array.from(new Uint8Array(hashBuffer))
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('');
 
-  const [email,setEmail] = useState("")
-  const [password, setPassword] = useState()
-  const [name,setName] = useState("")
+    console.log(pass)
+    return pass
+  }
+
+  const [email,setEmail] = useState("email@example")
+  const [password, setPassword] = useState("123")
+  const [name,setName] = useState("user123")
 
   const supabase = createClient(URL, API_KEY);
 
   const SignUp = async (e) => {
     e.preventDefault()
 
-    HashPassword(password)
+    const hashedPass = await HashPassword(password)
+    setPassword(hashedPass)
 
     const { error } = await supabase
 
