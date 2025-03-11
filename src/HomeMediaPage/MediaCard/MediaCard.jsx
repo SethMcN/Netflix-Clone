@@ -1,4 +1,5 @@
 import { React, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./MediaCard.css";
 // slider library
 import { useKeenSlider } from "keen-slider/react";
@@ -7,6 +8,7 @@ import "keen-slider/keen-slider.min.css";
 export default function MediaCard(props) {
   const genre = props.genre;
   const movies = props.movies;
+  const navigate = useNavigate();
 
   const [sliderRef, slider] = useKeenSlider({
     loop: true,
@@ -40,30 +42,20 @@ export default function MediaCard(props) {
     },
   });
 
-  useEffect(() => {
-    const handleResize = () => {
-      slider.update();
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [slider]);
-
-  const sliderUpdate = () => {
-    window.dispatchEvent(new Event("resize"));
-    console.log("loaded")
-  }
+  const handleCardClick = (movieId) => {
+    navigate(`/movie/${movieId}`);
+  };
 
   return (
-    <div onLoad={sliderUpdate}>
+    <div>
       <h1>{genre}</h1>
-      <div  ref={sliderRef} className="keen-slider">
+      <div ref={sliderRef} className="keen-slider">
         {movies.map((movie) => (
-          <div  className="keen-slider__slide movie-card" key={movie.id}>
+          <div
+            className="keen-slider__slide movie-card"
+            key={movie.id}
+            onClick={() => handleCardClick(movie.id)}
+          >
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               alt={`${movie.title} poster`}

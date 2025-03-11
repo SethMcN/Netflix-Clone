@@ -19,7 +19,8 @@
     display:flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20%;
+    margin-top: 10%;
+    height: 100%;
 }
 
 .sign-up-form{
@@ -33,7 +34,7 @@
 }
 
 .sign-up-form p{
-    color: rgb(194, 194, 194);
+    color: rgb(255, 255, 255);
 }
 
 .form-container input{
@@ -42,4 +43,18 @@
     margin: 0.5rem 0;
     border: none;
     border-radius: 20px;
+}
+
+#sign-up-button{
+    color: #000000;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 20px;
+    margin-top: 1rem;
+    cursor: pointer;
+}
+
+#sign-up-button:hover{
+    background-color: #6C63FF;
+    color: #FFFFFF;
 }

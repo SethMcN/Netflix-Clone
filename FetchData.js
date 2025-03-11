@@ -21,4 +21,12 @@ async function fetchMoviesByGenre(genreId) {
     return data.results;
 }
 
-export { fetchFromTMDB, fetchMoviesByGenre, fetchGenres }
+async function fetchSpecificMovie(movieId) {
+    const response = await fetch(`${BASE_URL}/movie/1241982/videos?language=en-US&api_key=${API_KEY}`);
+    const movies = await response.json();
+    const data = movies.find((movie) => movie.id === movieId);
+    return data;
+}
+
+
+export { fetchFromTMDB, fetchMoviesByGenre, fetchGenres,fetchSpecificMovie }

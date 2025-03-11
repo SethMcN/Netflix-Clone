@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import NavigationBar from "./pages/NavigationBar";
 import HomeMediaPage from "./HomeMediaPage/HomeMediaPage";
-import Profiles from "./pages/ProfileScreen";
+import SignUpScreen from "./pages/SignUpScreen";
+import MovieInfo from "./pages/MovieInfo";
 import { fetchFromTMDB, fetchMoviesByGenre, fetchGenres } from "../FetchData";
 
 function App() {
@@ -47,8 +48,14 @@ function App() {
     <div className="main-window">
       <NavigationBar />
       <Routes>
-        <Route path="/" element={<HomeMediaPage movies={movies} genreMoviesList={genreMoviesList} />} />
-        <Route path="/profiles" element={<Profiles />} />
+        <Route
+          path="/"
+          element={
+            <HomeMediaPage movies={movies} genreMoviesList={genreMoviesList} />
+          }
+        />
+        <Route path="/profiles" element={<SignUpScreen />} />
+        <Route path="/movie/:movieId" element={<MovieInfo movies={movies} />} />
       </Routes>
     </div>
   );
