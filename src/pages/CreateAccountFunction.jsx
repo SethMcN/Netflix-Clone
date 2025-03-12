@@ -1,6 +1,7 @@
-import {React, useState} from 'react'
-import { createClient } from "@supabase/supabase-js";
+import { useState } from 'react'
 import validator from 'validator';
+import { data } from 'react-router-dom';
+import supabase from './supabase';
 
 const API_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const URL = import.meta.env.VITE_SUPABASE_URL;
@@ -27,7 +28,6 @@ export default function CreateAccountFunction(props) {
   const [name, setName] = useState("user123");
   const [error, setError] = useState("");
 
-  const supabase = createClient(URL, API_KEY);
 
   const SignUp = async (e) => {
     e.preventDefault();
@@ -37,6 +37,19 @@ export default function CreateAccountFunction(props) {
       return;
     }
 
+    try {
+      const { data, error } = await supabase
+        .from("Users")
+        .select("*")
+
+      console.log("All emails in database:", data);
+      
+    } catch (err) {
+      console.error("Unexpected error:", err);
+    }
+
+    console.log("email: ", email);
+
     if (password.length < 8) {
       setError("Password must be at least 8 characters long.");
       return;
@@ -44,13 +57,13 @@ export default function CreateAccountFunction(props) {
 
     const hashedPass = await HashPassword(password);
 
-    const { error } = await supabase
+    const { error: signUpError } = await supabase
       .from("Users")
       .insert([{ email: email, password: hashedPass, name: name }]);
 
-    if (error) {
-      console.error("Error signing up:", error.message);
-      setError("Error signing up: " + error.message);
+    if (signUpError) {
+      console.error("Error signing up:", signUpError.message);
+      setError("Error signing up: " + signUpError.message);
     } else {
       console.log("User signed up successfully");
       setSignedIn(true);

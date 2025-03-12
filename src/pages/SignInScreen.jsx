@@ -12,6 +12,12 @@ export default function SignUpScreen(props) {
 
   const setSignedIn = props.setSignedIn;
 
+
+  const signIn = (e) => {
+    
+  };
+
+
   if (screenOption == "create-account-screen"){
     return(<CreateAccountFunction setSignedIn={setSignedIn}/>)
   }
@@ -26,7 +32,7 @@ export default function SignUpScreen(props) {
       className="sign-in-form"
     >
         <span className="sign-in-input-span">
-          <label className="label" htmlFor="">Password</label>
+          <label className="label" htmlFor="">Email</label>
           <input
             onChange={(e) => setEmail(e.target.value)}
             className=""
