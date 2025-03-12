@@ -22,11 +22,17 @@ async function fetchMoviesByGenre(genreId) {
 }
 
 async function fetchSpecificMovie(movieId) {
-    const response = await fetch(`${BASE_URL}/movie/1241982/videos?language=en-US&api_key=${API_KEY}`);
+    const response = await fetch(`${BASE_URL}/movie/${movieId}}/videos?language=en-US&sort_by=popularity.desc&api_key=${API_KEY}`);
     const movies = await response.json();
     const data = movies.find((movie) => movie.id === movieId);
     return data;
 }
 
+async function searchForMovies (search){
+    const response = await fetch(`${BASE_URL}/search/movie?&sort_by=popularity.desc&original_language=en&include_adult=false&language=en-US&query=${search}&api_key=${API_KEY}`);
+    const data = await response.json();
+    return data.results;
+}
 
-export { fetchFromTMDB, fetchMoviesByGenre, fetchGenres,fetchSpecificMovie }
+
+export { fetchFromTMDB, fetchMoviesByGenre, fetchGenres, fetchSpecificMovie, searchForMovies }

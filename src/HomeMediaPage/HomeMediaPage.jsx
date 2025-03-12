@@ -19,10 +19,10 @@ export default function HomeMediaPage(props) {
   
   return (
     <div className="home-media-container">
-      <MediaCard movies={popularMovies} genre={"popular"}/>
-      <MediaCard movies={horror} genre={"horror"} />
+      <MediaCard movies={popularMovies} genre={"Popular"}/>
+      <MediaCard movies={horror} genre={"Horror"} />
       <MediaCard movies={scienceFiction} genre={"Science Fiction"} />
-      <MediaCard movies={Comedy} genre={"comedy"} />
+      <MediaCard movies={Comedy} genre={"Comedy"} />
     </div>
   );
 }

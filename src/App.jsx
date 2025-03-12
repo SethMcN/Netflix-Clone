@@ -2,13 +2,15 @@ import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import NavigationBar from "./pages/NavigationBar";
 import HomeMediaPage from "./HomeMediaPage/HomeMediaPage";
-import SignUpScreen from "./pages/SignUpScreen";
+import ProfilesPage from "./pages/ProfilesPage";
 import MovieInfo from "./pages/MovieInfo";
+import SearchPage from "./pages/SearchPage";
 import { fetchFromTMDB, fetchMoviesByGenre, fetchGenres } from "../FetchData";
 
 function App() {
   const [movies, setMovies] = useState([]);
   const [genreMoviesList, setGenreMoviesList] = useState([]);
+  const [signedIn, setSignedIn] = useState(false);
 
   useEffect(() => {
     const fetchPopMovies = async () => {
@@ -54,8 +56,9 @@ function App() {
             <HomeMediaPage movies={movies} genreMoviesList={genreMoviesList} />
           }
         />
-        <Route path="/profiles" element={<SignUpScreen />} />
+        <Route path="/profiles" element={<ProfilesPage signedIn={signedIn} setSignedIn={setSignedIn} />} />
         <Route path="/movie/:movieId" element={<MovieInfo movies={movies} />} />
+        <Route path="/search" element={<SearchPage/>} />
       </Routes>
     </div>
   );

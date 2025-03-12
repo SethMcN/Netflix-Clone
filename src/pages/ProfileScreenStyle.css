@@ -1,5 +1,5 @@
 .profile-container{
-    background-color: #141414 ;
+    background-color:  var(--secondary-color) ;
     max-height: 100vh;
     overflow-y: scroll;
 }
@@ -55,6 +55,6 @@
 }
 
 #sign-up-button:hover{
-    background-color: #6C63FF;
-    color: #FFFFFF;
+    background-color: var(--active-color);
+    color: var(--text-color);
 }

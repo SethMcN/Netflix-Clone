@@ -1,0 +1,65 @@
+
+.sign-in-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--primary-color);
+}
+
+.sign-in-form {
+    background-color: var(--secondary-color);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+
+.sign-in-input-span {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.label {
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="password"] {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+#sign-in-button {
+    background-color: var(--active-color);
+    color: var(--text-color);
+    padding: 0.75rem;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+#sign-in-button:hover {
+    background-color: var(--active-color);
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    color: var(--active-color);
+    cursor: pointer;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+button:hover {
+    color: var(--active-color);
+}

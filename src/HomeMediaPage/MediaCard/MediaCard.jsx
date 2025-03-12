@@ -5,6 +5,7 @@ import "./MediaCard.css";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 
+
 export default function MediaCard(props) {
   const genre = props.genre;
   const movies = props.movies;
@@ -40,11 +41,22 @@ export default function MediaCard(props) {
     created(s) {
       window.dispatchEvent(new Event("created"));
     },
+    slideChanged() {
+      console.log('slide changed')
+    },
   });
+
+
+
 
   const handleCardClick = (movieId) => {
     navigate(`/movie/${movieId}`);
   };
+
+  console.log('MediaCard movies:', movies); // Debugging log
+  if (movies.length === 0) {
+    return <h1></h1>;
+  }
 
   return (
     <div>

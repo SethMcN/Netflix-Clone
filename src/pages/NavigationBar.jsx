@@ -14,14 +14,16 @@ export default function NavigationBar() {
             <CgProfile />
           </i>
         </Link>
+        <Link to="/search" className="nav-bar-icon">
+        <i id="search-icon">
+          <FaSearch />
+        </i>
+        </Link>
         <Link to="/" className="nav-bar-icon">
           <i className="nav-bar-icon" id="home-icon">
             <FaHome />
           </i>
         </Link>
-        <i className="nav-bar-icon" id="search-icon">
-          <FaSearch />
-        </i>
         <i className="nav-bar-icon" id="tv-icon">
           <FaCalendarAlt />
         </i>

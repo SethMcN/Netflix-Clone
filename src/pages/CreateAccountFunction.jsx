@@ -1,11 +1,14 @@
-import { React, useState, useEffect } from "react";
-import "./ProfileScreenStyle.css";
+import {React, useState} from 'react'
 import { createClient } from "@supabase/supabase-js";
+import validator from 'validator';
 
 const API_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const URL = import.meta.env.VITE_SUPABASE_URL;
 
-export default function SignUpScreen() {
+export default function CreateAccountFunction(props) {
+
+  const setSignedIn = props.setSignedIn;
+
   const HashPassword = async (message) => {
     const encoder = new TextEncoder();
     const data = encoder.encode(message);
@@ -22,11 +25,22 @@ export default function SignUpScreen() {
   const [email, setEmail] = useState("email@example");
   const [password, setPassword] = useState("123");
   const [name, setName] = useState("user123");
+  const [error, setError] = useState("");
 
   const supabase = createClient(URL, API_KEY);
 
   const SignUp = async (e) => {
     e.preventDefault();
+
+    if (!validator.isEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
 
     const hashedPass = await HashPassword(password);
 
@@ -36,14 +50,16 @@ export default function SignUpScreen() {
 
     if (error) {
       console.error("Error signing up:", error.message);
+      setError("Error signing up: " + error.message);
     } else {
       console.log("User signed up successfully");
+      setSignedIn(true);
     }
   };
 
   return (
     <div className="profile-container">
-      <h1>Profiles</h1>
+      <h1>Create account:</h1>
       <div className="form-container">
         <form
           onSubmit={SignUp}
@@ -71,6 +87,8 @@ export default function SignUpScreen() {
                 name="email"
                 id="email"
                 required
+                onInvalid={(e) => e.target.setCustomValidity('Enter a valid email')}
+                onInput={(e) => e.target.setCustomValidity('')}
               />
             </li>
             <li>
@@ -88,8 +106,9 @@ export default function SignUpScreen() {
               <input id="sign-up-button" type="submit" value="Submit" />
             </li>
           </ul>
+          {error && <p className="error-message">{error}</p>}
         </form>
       </div>
     </div>
-  );
+  )
 }

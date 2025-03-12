@@ -1,5 +1,6 @@
+
 .navigation-bar-container{
-    background-color: rgba(0, 0, 0, 0.856);
+    background-color: var(--secondary-color);
     width: 10vw;
     height: 100vh; 
 
@@ -16,12 +17,12 @@
 }
 
 .nav-bar-icon{
-    color: #FFFFFF   ;
+    color: var(--text-color);
     margin-top: 5vh;
     transform: scale(1.5);
 }
 
 .nav-bar-icon:hover{
-    color: #6C63FF ;
+    color: var(--active-color) ;
     cursor: pointer;
 }
