@@ -1,0 +1,40 @@
+.movie-info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+
+    text-align: center;
+    max-height: 100vh;
+}
+
+.movie-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--active-color);
+}
+
+.movie-poster {
+    height: 50%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1.5rem;
+}
+
+.movie-overview {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    max-width: 80%;
+}
+
+.release-date,
+.rating {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    color: var(--active-color);
+}

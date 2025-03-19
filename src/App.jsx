@@ -5,7 +5,7 @@ import HomeMediaPage from "./HomeMediaPage/HomeMediaPage";
 import ProfilesPage from "./pages/ProfilesPage";
 import MovieInfo from "./pages/MovieInfo";
 import SearchPage from "./pages/SearchPage";
-import { fetchFromTMDB, fetchMoviesByGenre, fetchGenres } from "../FetchData";
+import { fetchFromTMDB, fetchGenres } from "../FetchData";
 
 function App() {
   const [movies, setMovies] = useState([]);
@@ -14,7 +14,7 @@ function App() {
 
   useEffect(() => {
     const fetchPopMovies = async () => {
-      const data = await fetchFromTMDB();
+      const data = await fetchFromTMDB(10);
       setMovies(data);
     };
 
@@ -26,7 +26,7 @@ function App() {
       });
 
       if (genre) {
-        const data = await fetchMoviesByGenre(genre.id);
+        const data = await fetchFromTMDB(5,genre.id);
         setGenreMoviesList((prevList) => [
           ...prevList,
           { movies: data, genre: genre.name },

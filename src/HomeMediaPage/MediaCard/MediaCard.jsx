@@ -47,14 +47,11 @@ export default function MediaCard(props) {
     },
   });
 
-
-
-
   const handleCardClick = (movieId) => {
     navigate(`/movie/${movieId}`);
   };
 
-  console.log('MediaCard movies:', movies); // Debugging log
+  console.log('MediaCard movies:', movies); 
   if (movies.length === 0) {
     return <h1></h1>;
   }
