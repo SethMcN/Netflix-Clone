@@ -1,12 +1,62 @@
-# React + Vite
+# Netflix Clone
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a clone of the Netflix platform, built using modern web technologies. The project showcases the user interface and certain functionalities of Netflix.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- User authentication (sign-up and log-in)
+- Browse movies and TV shows by categories
+- Watch trailers and get detailed information about each title
+- Responsive design for different screen sizes
+
+## Technologies Used
+
+- **JavaScript**: The primary programming language used for functionality (73.3%)
+- **CSS**: For styling the application (23.8%)
+- **HTML**: For the structure of the web pages (2.9%)
+
+## Installation
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/SethMcN/Netflix-Clone.git
+    ```
+2. Navigate to the project directory:
+    ```bash
+    cd Netflix-Clone
+    ```
+3. Install the dependencies:
+    ```bash
+    npm install
+    ```
+
+## Usage
+
+1. Start the development server:
+    ```bash
+    npm start
+    ```
+2. Open your browser and go to `http://localhost:3000` to view the application.
+
+## Contributing
+
+Contributions are welcome! Please follow the steps below to contribute:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch`).
+3. Commit your changes (`git commit -m 'Add a new feature'`).
+4. Push to the branch (`git push origin feature-branch`).
+5. Create a pull request.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
