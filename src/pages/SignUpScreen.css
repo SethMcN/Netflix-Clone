@@ -63,3 +63,9 @@ button {
 button:hover {
     color: var(--active-color);
 }
+
+.error-message{
+    color: red;
+    display: flex;
+    justify-self: center;
+}

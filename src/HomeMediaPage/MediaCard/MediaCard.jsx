@@ -9,10 +9,11 @@ import "keen-slider/keen-slider.min.css";
 export default function MediaCard(props) {
   const genre = props.genre;
   const movies = props.movies;
+  const loop = props.loop ?? true
   const navigate = useNavigate();
 
   const [sliderRef, slider] = useKeenSlider({
-    loop: true,
+    loop: loop,
     mode: "free-snap",
     slides: {
       perView: 8,
@@ -29,13 +30,13 @@ export default function MediaCard(props) {
         slides: {
           perView: 2,
         },
-        loop: true,
+        loop: loop,
       },
       "(min-width: 801px)": {
         slides: {
           perView: 6,
         },
-        loop: true,
+        loop: loop,
       },
     },
     created(s) {

@@ -2,9 +2,7 @@ import { useState } from 'react'
 import validator from 'validator';
 import { data } from 'react-router-dom';
 import supabase from './supabase';
-
-const API_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY;
-const URL = import.meta.env.VITE_SUPABASE_URL;
+import "./CreateAccountStyle.css";
 
 export default function CreateAccountFunction(props) {
 
@@ -30,6 +28,7 @@ export default function CreateAccountFunction(props) {
 
 
   const SignUp = async (e) => {
+    let emailInUse = false
     e.preventDefault();
 
     if (!validator.isEmail(email)) {
@@ -37,26 +36,38 @@ export default function CreateAccountFunction(props) {
       return;
     }
 
+    // fetch email addresses from the users database
     try {
       const { data, error } = await supabase
         .from("Users")
-        .select("*")
+        .select("email")
 
-      console.log("All emails in database:", data);
+      // check if email is in use
+      data.forEach(element => {
+        if (element.email === email){
+          emailInUse = true
+        }
+      });
       
     } catch (err) {
       console.error("Unexpected error:", err);
     }
-
-    console.log("email: ", email);
-
-    if (password.length < 8) {
-      setError("Password must be at least 8 characters long.");
+    
+    // return error message to user if email is in use or password is under 8 characters 
+    if (emailInUse){
+      setError("This email is already in use");
       return;
     }
 
+    else if (password.length < 8) {
+      setError("Password must be at least 8 characters long.");
+      return;
+    }
+    
+
     const hashedPass = await HashPassword(password);
 
+    // adds the user to the user database
     const { error: signUpError } = await supabase
       .from("Users")
       .insert([{ email: email, password: hashedPass, name: name }]);
@@ -72,54 +83,53 @@ export default function CreateAccountFunction(props) {
 
   return (
     <div className="profile-container">
-      <h1>Create account:</h1>
-      <div className="form-container">
+      <div className="create-account-form-container">
         <form
           onSubmit={SignUp}
-          name="sign-in"
+          name="create-account"
           action=""
-          className="sign-up-form"
+          className="create-account-form"
         >
-          <ul>
-            <li>
-              <p>Name</p>
-              <input
-                onChange={(e) => setName(e.target.value)}
-                className="form-item"
-                type="text"
-                name="name"
-                id="name"
-              />
-            </li>
-            <li>
-              <p>Email</p>
-              <input
-                onChange={(e) => setEmail(e.target.value)}
-                className="form-item"
-                type="text"
-                name="email"
-                id="email"
-                required
-                onInvalid={(e) => e.target.setCustomValidity('Enter a valid email')}
-                onInput={(e) => e.target.setCustomValidity('')}
-              />
-            </li>
-            <li>
-              <p>Password</p>
-              <input
-                onChange={(e) => setPassword(e.target.value)}
-                className="form-item"
-                type="password"
-                name="password"
-                id="password"
-                required
-              />
-            </li>
-            <li>
-              <input id="sign-up-button" type="submit" value="Submit" />
-            </li>
-          </ul>
-          {error && <p className="error-message">{error}</p>}
+          <span className="create-account-span">
+          <label className="label" htmlFor="">Name</label>
+          <input
+            onChange={(e) => setName(e.target.value)}
+            className=""
+            type="text"
+            name="Name"
+            id="Name"
+            required
+            onInvalid={(e) => e.target.setCustomValidity('Enter a valid email')}
+            onInput={(e) => e.target.setCustomValidity('')}
+          />
+        </span>
+          <span className="create-account-span">
+          <label className="label" htmlFor="">Email</label>
+          <input
+            onChange={(e) => setEmail(e.target.value)}
+            className=""
+            type="text"
+            name="email"
+            id="email"
+            required
+            onInvalid={(e) => e.target.setCustomValidity('Enter a valid email')}
+            onInput={(e) => e.target.setCustomValidity('')}
+          />
+        </span>
+        <span className="create-account-span">
+          <label className="label" htmlFor="">Password</label>
+          <input
+            onChange={(e) => setPassword(e.target.value)}
+            className=""
+            type="password"
+            name="password"
+            id="password"
+            required
+          />
+        </span>
+
+          <input id="sign-in-button" type="submit" value="Sign in" />
+          <span>{error && <p className="error-message">{error}</p>}</span>
         </form>
       </div>
     </div>

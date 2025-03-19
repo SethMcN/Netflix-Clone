@@ -26,7 +26,7 @@ export default function SearchPage() {
                 </form>
             </div>
             <div className='search-page-results'>
-                <MediaCard genre={"Results"} movies={movies} />
+                <MediaCard genre={"Results"} movies={movies} loop={false} />
             </div>
         </div>
     )

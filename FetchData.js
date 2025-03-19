@@ -31,7 +31,7 @@ async function fetchSpecificMovie(movieId) {
 async function searchForMovies (search){
     const response = await fetch(`${BASE_URL}/search/movie?&sort_by=popularity.desc&original_language=en&include_adult=false&language=en-US&query=${search}&api_key=${API_KEY}`);
     const data = await response.json();
-    return data.results;
+    return data.results ? data.results.sort((a, b) => b.vote_count - a.vote_count) : [];
 }
 
 
