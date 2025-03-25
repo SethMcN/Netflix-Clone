@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchSpecificMovie } from "../../FetchData";
 import "./MovieInfoStyle.css";
@@ -42,12 +42,15 @@ export default function MovieInfo() {
         vote_average: movie.vote_average,
       });
       localStorage.setItem("watchlist", JSON.stringify(watchlist));
-      };
-      updateSupabaseWatchlist();
-
     }
 
     setIsInWatchlist((prev) => !prev);
+  };
+
+  // Function to update watchlist in Supabase
+  const updateSupabaseWatchlist = async () => {
+    // Implement Supabase update logic here if needed
+    // Example: await supabase.from('watchlist').upsert([...]);
   };
 
   if (!movie) {
