@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { fetchSpecificMovie } from "../../FetchData";
 import "./MovieInfoStyle.css";
+import supabase from "./supabase";
 
 export default function MovieInfo() {
   const { movieId } = useParams();
@@ -41,6 +42,9 @@ export default function MovieInfo() {
         vote_average: movie.vote_average,
       });
       localStorage.setItem("watchlist", JSON.stringify(watchlist));
+      };
+      updateSupabaseWatchlist();
+
     }
 
     setIsInWatchlist((prev) => !prev);

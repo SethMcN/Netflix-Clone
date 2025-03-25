@@ -69,9 +69,27 @@ export default function CreateAccountFunction(props) {
       setError("Error signing up: " + signUpError.message);
     } else {
       console.log("User signed up successfully");
-      setSignedIn(true);
-      // Store user information in local storage
-      localStorage.setItem("user", JSON.stringify({ id, name, email }));
+
+      // Fetch the newly created user data including the ID
+      const { data, error } = await supabase
+        .from("Users")
+        .select("*")
+        .eq("email", email)
+        .single();
+
+      if (error) {
+        console.error("Error fetching user data:", error.message);
+      } else if (data) {
+        // Store user information in local storage
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            id: data.id,
+            name: data.name,
+            email: data.email,
+          })
+        );
+      }
     }
   };
 

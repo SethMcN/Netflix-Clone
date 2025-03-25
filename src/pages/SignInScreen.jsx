@@ -34,9 +34,13 @@ export default function SignUpScreen(props) {
       const id = data.id;
       const name = data.name;
       const email = data.email;
+      const profile_url = data.profile_url;
 
       // Store user information in local storage
-      localStorage.setItem("user", JSON.stringify({ id, name, email }));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ id, name, email, profile_url })
+      );
     } else {
       setError("Incorrect password");
     }

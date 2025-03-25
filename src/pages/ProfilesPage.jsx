@@ -1,150 +1,111 @@
 import React, { useState, useEffect } from "react";
 import SignUpScreen from "./SignInScreen";
-import ProfileCard from "./ProfileCard";
-import ProfileSettingsPage from "./ProfileSettingsPage";
 import supabase from "./supabase";
 import "./ProfileScreenStyle.css";
 
-export default function ProfilesPage(props) {
-  const setActiveProfile = props.setActiveProfile;
-  const { setSignedIn } = props;
-  const [profiles, setProfiles] = useState([]);
-  const [showSettingsPage, setShowSettingsPage] = useState(false);
-  const [selectedProfile, setSelectedProfile] = useState(null);
+export default function ProfilesPage({ setSignedIn }) {
   const [user, setUser] = useState(null);
+  const [name, setName] = useState("");
+  const [profileUrl, setProfileUrl] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
-    const fetchUserProfiles = async () => {
-      const userStr = localStorage.getItem("user");
-      if (userStr) {
-        try {
-          const userData = JSON.parse(userStr);
-          setUser(userData);
-
-          const { data, error } = await supabase
-            .from("Users")
-            .select("profiles")
-            .eq("id", userData.id)
-            .single();
-
-          if (error) {
-            console.error("Error fetching profiles:", error);
-            return;
-          }
-
-          if (data && data.profiles) {
-            const profilesWithIds = data.profiles.map((profile) =>
-              profile.id ? profile : { ...profile, id: generateId() }
-            );
-            setProfiles(profilesWithIds);
-          } else if (userData.profiles) {
-            const profilesWithIds = userData.profiles.map((profile) =>
-              profile.id ? profile : { ...profile, id: generateId() }
-            );
-            setProfiles(profilesWithIds);
-          }
-        } catch (error) {
-          console.error("Error parsing user data:", error);
-        }
-      }
-    };
-
-    fetchUserProfiles();
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      const parsedUser = JSON.parse(userData);
+      setUser(parsedUser);
+      setName(parsedUser.name || "");
+      setProfileUrl(parsedUser.profile_url || "");
+    }
   }, []);
-
-  const generateId = () => {
-    return Math.random().toString(36).substr(2, 9);
-  };
-
-  const handleSettingsClick = () => {
-    setShowSettingsPage(true);
-    setSelectedProfile(null);
-  };
 
   if (!localStorage.getItem("user")) {
     return <SignUpScreen setSignedIn={setSignedIn} />;
   }
 
-  const handleProfileEdit = (profile, index) => {
-    setSelectedProfile({ ...profile, index });
-    setShowSettingsPage(true);
-  };
+  const handleUpdateProfile = async (e) => {
+    e.preventDefault();
+    setLoading(true);
 
-  const handleUpdateProfile = async (updatedProfile) => {
-    const newProfiles = [...profiles];
-
-    if (selectedProfile && selectedProfile.index !== undefined) {
-      newProfiles[selectedProfile.index] = {
-        ...updatedProfile,
-        id: selectedProfile.id || generateId(),
-      };
-    } else {
-      newProfiles.push({
-        ...updatedProfile,
-        id: generateId(),
-      });
+    if (!user || !user.id) {
+      setMessage("User information is missing. Please sign in again.");
+      setLoading(false);
+      return;
     }
 
-    setProfiles(newProfiles);
-
-    if (user) {
-      console.log("Updating profiles in database:", newProfiles);
+    try {
       const { error } = await supabase
         .from("Users")
-        .update({ profiles: newProfiles })
+        .update({ name, profile_url: profileUrl })
         .eq("id", user.id);
 
-      if (error) {
-        console.error("Error updating profiles in database:", error);
-      }
+      if (error) throw error;
 
-      const updatedUser = { ...user, profiles: newProfiles };
+      // Update local storage
+      const updatedUser = { ...user, name, profile_url: profileUrl };
       localStorage.setItem("user", JSON.stringify(updatedUser));
-    }
+      setUser(updatedUser);
 
-    localStorage.setItem("userProfiles", JSON.stringify(newProfiles));
-    setShowSettingsPage(false);
-    setSelectedProfile(null);
+      setMessage("Profile updated successfully!");
+    } catch (error) {
+      setMessage(`Error updating profile: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const userName = user ? user.name : "";
-
   return (
-    <div className="profiles-container">
-      <h1>Hi {userName} who's watching?</h1>
-      <div className="profiles">
-        {profiles.map((profile, index) => (
-          <ProfileCard
-            key={profile.id || index}
-            name={profile.name}
-            image={profile.image}
-            onEdit={() => handleProfileEdit(profile, index)}
-            onClick={() => {
-              setActiveProfile(profile); // Set the active profile
-              localStorage.setItem(
-                "currentProfile",
-                JSON.stringify({
-                  name: profile.name,
-                  id: profile.id,
-                  key: index,
-                })
-              );
-            }}
+    <div className="profile-page">
+      <h1>Edit Profile</h1>
+
+      <div className="profile-container">
+        <div className="profile-picture">
+          <img
+            src={
+              profileUrl ||
+              "https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
+            }
+            alt="Profile"
           />
-        ))}
-        <div onClick={handleSettingsClick}>Add Profile</div>
+        </div>
+
+        <form onSubmit={handleUpdateProfile} className="profile-form">
+          <div className="form-group">
+            <label>Profile Picture URL</label>
+            <input
+              type="text"
+              value={profileUrl}
+              onChange={(e) => setProfileUrl(e.target.value)}
+              placeholder="Enter image URL"
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Enter your name"
+            />
+          </div>
+
+          {message && (
+            <p
+              className={
+                message.includes("Error") ? "error-message" : "success-message"
+              }
+            >
+              {message}
+            </p>
+          )}
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Updating..." : "Update Profile"}
+          </button>
+        </form>
       </div>
-      {showSettingsPage && (
-        <ProfileSettingsPage
-          profile={selectedProfile}
-          profiles={profiles}
-          onSave={handleUpdateProfile}
-          onCancel={() => {
-            setShowSettingsPage(false);
-            setSelectedProfile(null);
-          }}
-        />
-      )}
     </div>
   );
 }
