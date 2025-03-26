@@ -39,19 +39,12 @@ export default function MediaCard(props) {
         loop: loop,
       },
     },
-    created(s) {
-      window.dispatchEvent(new Event("created"));
-    },
-    slideChanged() {
-      console.log('slide changed')
-    },
   });
 
   const handleCardClick = (movieId) => {
     navigate(`/movie/${movieId}`);
   };
 
-  console.log('MediaCard movies:', movies); 
   if (movies.length === 0) {
     return <h1></h1>;
   }

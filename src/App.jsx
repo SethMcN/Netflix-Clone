@@ -11,6 +11,7 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [genreMoviesList, setGenreMoviesList] = useState([]);
   const [signedIn, setSignedIn] = useState(false);
+  const [activeProfile, setActiveProfile] = useState(null);
 
   useEffect(() => {
     const fetchPopMovies = async () => {
@@ -26,7 +27,7 @@ function App() {
       });
 
       if (genre) {
-        const data = await fetchFromTMDB(5,genre.id);
+        const data = await fetchFromTMDB(5, genre.id);
         setGenreMoviesList((prevList) => [
           ...prevList,
           { movies: data, genre: genre.name },
@@ -56,9 +57,18 @@ function App() {
             <HomeMediaPage movies={movies} genreMoviesList={genreMoviesList} />
           }
         />
-        <Route path="/profiles" element={<ProfilesPage signedIn={signedIn} setSignedIn={setSignedIn} />} />
+        <Route
+          path="/profiles"
+          element={
+            <ProfilesPage
+              signedIn={signedIn}
+              setSignedIn={setSignedIn}
+              setActiveProfile={setActiveProfile}
+            />
+          }
+        />
         <Route path="/movie/:movieId" element={<MovieInfo movies={movies} />} />
-        <Route path="/search" element={<SearchPage/>} />
+        <Route path="/search" element={<SearchPage />} />
       </Routes>
     </div>
   );
